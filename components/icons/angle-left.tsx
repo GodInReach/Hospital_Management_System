@@ -1,0 +1,1 @@
+export default function Icon(props: React.SVGProps<SVGSVGElement>) { return ; }
