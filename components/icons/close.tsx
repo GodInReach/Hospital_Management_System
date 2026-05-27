@@ -1,4 +1,4 @@
-export default function Icon(props: React.SVGProps<SVGSVGElement>) { return    <svg {...props} className=fill-current"
+export default function Icon(props: React.SVGProps<SVGSVGElement>) { return    <svg {...props} className="fill-current"
       width="24"
       height="24"
       viewBox="0 0 24 24"

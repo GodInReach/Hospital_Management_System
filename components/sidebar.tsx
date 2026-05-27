@@ -1,140 +1,262 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DropdownItem } from "./dropdown-item";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { NavigationSection } from "../lib/navigation";
 import { navigation } from "../lib/navigation";
-import { useState } from "react";
-import type { Dispatch, SetStateAction } from "react";
+import {
+  BoxCubeIcon,
+  BoxIcon,
+  ChevronDownIcon,
+  DocsIcon,
+  DollarLineIcon,
+  FolderIcon,
+  GridIcon,
+  GroupIcon,
+  UserCircleIcon,
+} from "./icons";
+import { useSidebar } from "./context/SidebarContext";
 
-type NavNode = (typeof navigation)[number];
+type OpenMap = Record<string, boolean>;
 
-type RenderNodeProps = {
-  node: NavNode;
-  level: number;
-  pathKey: string;
-  openPaths: string[];
-  setOpenPaths: Dispatch<SetStateAction<string[]>>;
-  pathname: string;
-};
+function getNodeKey(node: NavigationSection, parentKey = "") {
+  return parentKey ? `${parentKey}/${node.title}` : node.title;
+}
 
-function collectCurrentPathKeys(nodes: NavNode[], pathname: string, prefix = ""): string[] {
+function collectOpenKeys(
+  nodes: NavigationSection[],
+  pathname: string,
+  parentKey = "",
+): string[] {
   for (const node of nodes) {
-    const key = prefix ? `${prefix}/${node.title}` : node.title;
-    const hasDirectMatch = node.href === pathname;
-    const childKeys = node.items ? collectCurrentPathKeys(node.items, pathname, key) : [];
+    const nodeKey = getNodeKey(node, parentKey);
+    const directMatch = node.href === pathname;
+    const nestedMatch = node.items
+      ? collectOpenKeys(node.items, pathname, nodeKey)
+      : [];
 
-    if (hasDirectMatch || childKeys.length > 0) {
-      return [key, ...childKeys];
+    if (directMatch || nestedMatch.length > 0) {
+      return [nodeKey, ...nestedMatch];
     }
   }
 
-  return [] as string[];
+  return [];
 }
 
-function getPathPrefixes(pathKey: string) {
-  const parts = pathKey.split("/");
-  const prefixes: string[] = [];
-
-  for (let index = 1; index <= parts.length; index += 1) {
-    prefixes.push(parts.slice(0, index).join("/"));
+function getSectionIcon(title: string) {
+  switch (title) {
+    case "Masters":
+      return <GridIcon />;
+    case "Pharmacy":
+      return <BoxIcon />;
+    case "Billing":
+      return <DollarLineIcon />;
+    case "Pricing":
+      return <DollarLineIcon />;
+    case "Discount Schema":
+      return <DocsIcon />;
+    case "Queue Management":
+      return <GroupIcon />;
+    case "Clinical Masters":
+      return <GroupIcon />;
+    case "Consultant Doctor Management":
+      return <UserCircleIcon />;
+    case "Lab Hospital Facility Masters":
+      return <BoxCubeIcon />;
+    default:
+      return <FolderIcon />;
   }
-
-  return prefixes;
 }
 
-function RenderNode({
+type ItemProps = {
+  node: NavigationSection;
+  parentKey?: string;
+  level?: number;
+  pathname: string;
+  isCompact: boolean;
+  openMap: OpenMap;
+  onToggle: (key: string) => void;
+};
+
+function SidebarItem({
   node,
-  level,
-  pathKey,
-  openPaths,
-  setOpenPaths,
+  parentKey = "",
+  level = 0,
   pathname,
-}: RenderNodeProps) {
+  isCompact,
+  openMap,
+  onToggle,
+}: ItemProps) {
+  const nodeKey = getNodeKey(node, parentKey);
   const hasChildren = Boolean(node.items?.length);
-  const isActive = pathname === node.href;
-  const isExpanded = hasChildren ? openPaths.includes(pathKey) : false;
+  const isActive = node.href === pathname;
+  const isOpen = Boolean(openMap[nodeKey]);
+  const icon = level === 0 ? getSectionIcon(node.title) : null;
 
   if (!hasChildren) {
     return (
-      <DropdownItem
-        key={pathKey}
-        tag="a"
-        href={node.href ?? "#"}
-        className={isActive ? "sidebar__link sidebar__link--active" : "sidebar__link"}
-        baseClassName={`sidebar__item sidebar__item--level-${level}`}
-        onItemClick={() => {
-          setOpenPaths((current) => Array.from(new Set([...current, ...getPathPrefixes(pathKey)])));
-        }}
-      >
-        {node.title}
-      </DropdownItem>
+      <li>
+        <Link
+          href={node.href ?? "#"}
+          className={`menu-item group ${isActive ? "menu-item-active" : "menu-item-inactive"} ${
+            isCompact ? "lg:justify-center" : "lg:justify-start"
+          }`}
+        >
+          {icon ? (
+            <span
+              className={`${isActive ? "menu-item-icon-active" : "menu-item-icon-inactive"}`}
+            >
+              {icon}
+            </span>
+          ) : null}
+          {!isCompact ? <span className="truncate">{node.title}</span> : null}
+        </Link>
+      </li>
     );
   }
 
   return (
-    <div className={`sidebar__nested sidebar__nested--level-${level}`}>
+    <li>
       <button
         type="button"
-        className="sidebar__summary sidebar__summary--nested dropdown-toggle"
-        data-open={isExpanded}
-        onClick={() => {
-          setOpenPaths((current) =>
-            current.includes(pathKey)
-              ? current.filter((item) => item !== pathKey)
-              : [...current, pathKey],
-          );
-        }}
+        onClick={() => onToggle(nodeKey)}
+        className={`menu-item group w-full ${isOpen ? "menu-item-active" : "menu-item-inactive"} ${
+          isCompact ? "lg:justify-center" : "lg:justify-start"
+        }`}
       >
-        <span>{node.title}</span>
-        <span className="sidebar__chevron" aria-hidden="true">
-          ▶
-        </span>
+        {icon ? (
+          <span className={`${isOpen ? "menu-item-icon-active" : "menu-item-icon-inactive"}`}>
+            {icon}
+          </span>
+        ) : null}
+        {!isCompact ? <span className="truncate">{node.title}</span> : null}
+        {!isCompact ? (
+          <ChevronDownIcon
+            className={`ml-auto h-5 w-5 transition-transform duration-200 ${
+              isOpen ? "rotate-180 text-brand-500" : "text-gray-500"
+            }`}
+          />
+        ) : null}
       </button>
 
-      {isExpanded ? (
-        <nav className="sidebar__links sidebar__links--nested" aria-label={node.title}>
-          {node.items?.map((child) => (
-            <RenderNode
-              key={`${pathKey}/${child.title}`}
-              node={child}
-              level={level + 1}
-              pathKey={`${pathKey}/${child.title}`}
-              openPaths={openPaths}
-              setOpenPaths={setOpenPaths}
-              pathname={pathname}
-            />
-          ))}
-        </nav>
+      {!isCompact ? (
+        <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "mt-2" : "mt-0"}`}>
+          {isOpen ? (
+            <ul className={`${level === 0 ? "ml-9" : "ml-4"} space-y-1`}>
+              {node.items?.map((child) => (
+                <SidebarItem
+                  key={getNodeKey(child, nodeKey)}
+                  node={child}
+                  parentKey={nodeKey}
+                  level={level + 1}
+                  pathname={pathname}
+                  isCompact={isCompact}
+                  openMap={openMap}
+                  onToggle={onToggle}
+                />
+              ))}
+            </ul>
+          ) : null}
+        </div>
       ) : null}
-    </div>
+    </li>
   );
 }
 
 export function Sidebar() {
   const pathname = usePathname();
-  const [openPaths, setOpenPaths] = useState<string[]>(() => collectCurrentPathKeys(navigation, pathname));
+  const { isExpanded, isHovered, isMobileOpen, setIsHovered } = useSidebar();
+  const isCompact = !isExpanded && !isHovered && !isMobileOpen;
+  const initialOpen = useMemo(() => collectOpenKeys(navigation, pathname), [pathname]);
+  const [openMap, setOpenMap] = useState<OpenMap>({});
+  const syncedPathname = useRef<string>("");
+
+  useEffect(() => {
+    if (syncedPathname.current === pathname) {
+      return;
+    }
+
+    syncedPathname.current = pathname;
+    setOpenMap((current) => {
+      const next = { ...current };
+
+      for (const key of initialOpen) {
+        next[key] = true;
+      }
+
+      return next;
+    });
+  }, [initialOpen, pathname]);
+
+  const handleToggle = (key: string) => {
+    setOpenMap((current) => ({
+      ...current,
+      [key]: !current[key],
+    }));
+  };
 
   return (
-    <aside className="sidebar" aria-label="Primary navigation">
-      <div className="sidebar__brand">
-        <div className="sidebar__brand-mark">HS</div>
-        <div className="sidebar__brand-copy">
-          <span className="sidebar__brand-title">HSMS</span>
-          <span className="sidebar__brand-subtitle">Hospital Suite</span>
-        </div>
+    <aside
+      className={`fixed top-0 left-0 z-50 flex h-screen flex-col border-r border-gray-200 bg-white px-4 text-gray-900 transition-all duration-300 ease-in-out dark:border-gray-800 dark:bg-gray-900 ${
+        isExpanded || isMobileOpen || isHovered ? "w-[290px]" : "w-[90px]"
+      } ${isMobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
+      onMouseEnter={() => {
+        if (!isExpanded) {
+          setIsHovered(true);
+        }
+      }}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className={`flex py-8 ${isCompact ? "lg:justify-center" : "justify-start"}`}>
+        <Link
+          href="/"
+          className="flex items-center gap-3"
+          aria-label="HSMS home"
+        >
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500 text-sm font-bold text-white shadow-theme-sm">
+            HS
+          </div>
+          {!isCompact ? (
+            <div className="min-w-0">
+              <div className="truncate text-sm font-semibold text-gray-900 dark:text-white/90">
+                HSMS
+              </div>
+              <div className="truncate text-xs text-gray-500 dark:text-gray-400">
+                Hospital Suite
+              </div>
+            </div>
+          ) : null}
+        </Link>
       </div>
 
-      {navigation.map((section) => (
-        <RenderNode
-          key={section.title}
-          node={section}
-          level={0}
-          pathKey={section.title}
-          openPaths={openPaths}
-          setOpenPaths={setOpenPaths}
-          pathname={pathname}
-        />
-      ))}
+      <div className="custom-scrollbar flex flex-1 flex-col overflow-y-auto pb-6">
+        <nav className="mb-6">
+          <div className="flex flex-col gap-6">
+            <div>
+              <h2
+                className={`mb-4 flex text-xs leading-5 uppercase text-gray-400 ${
+                  isCompact ? "lg:justify-center" : "justify-start"
+                }`}
+              >
+                {isCompact ? "..." : "Menu"}
+              </h2>
+              <ul className="flex flex-col gap-2">
+                {navigation.map((section) => (
+                  <SidebarItem
+                    key={section.title}
+                    node={section}
+                    pathname={pathname}
+                    isCompact={isCompact}
+                    openMap={openMap}
+                    onToggle={handleToggle}
+                  />
+                ))}
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
     </aside>
   );
 }
