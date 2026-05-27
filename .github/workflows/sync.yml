@@ -1,0 +1,29 @@
+ame: Mirror repo to GodInReach
+
+on:
+  push:
+    branches: ['*']
+    tags:     ['*']
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout full repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Add destination remote
+        env:
+          DEST_REPO: https://github.com/GodInReach/Hospital_Management_System.git
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+        run: |
+          git remote add destination "$DEST_REPO"
+
+      - name: Push everything (mirror)
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+        run: |
+          git push destination --mirror
