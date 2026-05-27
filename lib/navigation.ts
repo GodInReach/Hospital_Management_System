@@ -91,37 +91,13 @@ export const navigation: NavigationSection[] = [
     ],
   },
   {
-    title: "Front Office",
-    items: [
-      { title: "Registration", href: "/front-office/registration" },
-      { title: "Appointments", href: "/front-office/appointments" },
-      { title: "Queue Management", href: "/front-office/queue-management" },
-    ],
-  },
-  {
-    title: "Clinical",
-    items: [
-      { title: "EMR", href: "/clinical/emr" },
-      { title: "Nursing", href: "/clinical/nursing" },
-      { title: "OPD", href: "/clinical/opd" },
-      { title: "IPD", href: "/clinical/ipd" },
-      { title: "OT", href: "/clinical/ot" },
-    ],
-  },
-  {
-    title: "Diagnostic",
-    items: [
-      { title: "LIS", href: "/diagnostic/lis" },
-      { title: "RIS", href: "/diagnostic/ris" },
-      { title: "PACS", href: "/diagnostic/pacs" },
-    ],
-  },
-  {
     title: "Pharmacy",
     items: [
       { title: "Purchase", href: "/pharmacy/purchase" },
       { title: "Inventory", href: "/pharmacy/inventory" },
       { title: "Dispensing", href: "/pharmacy/dispensing" },
+      { title: "GRN", href: "/pharmacy/grn" },
+      { title: "Supplier", href: "/pharmacy/supplier" },
     ],
   },
   {
@@ -133,29 +109,19 @@ export const navigation: NavigationSection[] = [
     ],
   },
   {
-    title: "CRM",
-    items: [
-      { title: "Patient Follow-up", href: "/crm/patient-follow-up" },
-      { title: "Marketing", href: "/crm/marketing" },
-      { title: "Feedback", href: "/crm/feedback" },
-    ],
+    title: "Pricing",
+    href: "/pricing",
   },
   {
-    title: "Administration",
-    items: [
-      { title: "HR", href: "/administration/hr" },
-      { title: "Payroll", href: "/administration/payroll" },
-      { title: "Assets", href: "/administration/assets" },
-      { title: "Finance", href: "/administration/finance" },
-    ],
+    title: "Discount Schema",
+    href: "/discount-schema",
   },
   {
-    title: "Analytics",
+    title: "Queue Management",
     items: [
-      { title: "Revenue Dashboard", href: "/analytics/revenue-dashboard" },
-      { title: "Bed Occupancy", href: "/analytics/bed-occupancy" },
-      { title: "Doctor Performance", href: "/analytics/doctor-performance" },
-      { title: "Patient Statistics", href: "/analytics/patient-statistics" },
+      { title: "Out Patient", href: "/queue-management/out-patient" },
+      { title: "In Patient", href: "/queue-management/in-patient" },
+      { title: "Pharmacist Screen", href: "/queue-management/pharmacist-screen" },
     ],
   },
 ];
