@@ -1,4 +1,4 @@
-name: Mirror repo to GodInReach
+name: Mirror repo to GodInReach (shallow)
 
 on:
   push:
@@ -10,20 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout full repository
+      # Shallow clone – only the latest commit of each branch/tag
+      - name: Checkout shallow repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 1   # shallow fetch (latest commit only)
 
-      - name: Add destination remote
+      # Add the destination remote, embedding the PAT so the push is authenticated
+      - name: Set destination remote with token
         env:
-          DEST_REPO: https://github.com/GodInReach/Hospital_Management_System.git
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
-          git remote add destination "$DEST_REPO"
+          # GitHub uses “x-access-token” as the username; the token is the password
+          AUTHED_URL="https://x-access-token:${GIT_TOKEN}@github.com/GodInReach/Hospital_Management_System.git"
+          git remote add destination "$AUTHED_URL"
 
-      - name: Push everything (mirror)
-        env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+      # Push the shallow refs to the destination repo
+      - name: Push shallow refs (mirror)
         run: |
           git push destination --mirror
