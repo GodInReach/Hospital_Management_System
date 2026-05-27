@@ -25,13 +25,6 @@ jobs:
           AUTHED_URL="https://x-access-token:${GIT_TOKEN}@github.com/GodInReach/Hospital_Management_System.git"
           git remote add destination "$AUTHED_URL"
 
-      # Push the shallow refs to the destination repo
-      - name: Push shallow refs (mirror)
-        env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
-        run: |
-          git push destination --mirror
-
       # Debug: Print GIT_TOKEN length
       - name: Print GIT_TOKEN length
         env:
@@ -45,3 +38,10 @@ jobs:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
           echo "Remote URL: https://x-access-token:${GIT_TOKEN}@github.com/GodInReach/Hospital_Management_System.git" | sed 's/x-access-token:.*/x-access-token:[REDACTED]/'
+
+      # Push the shallow refs to the destination repo
+      - name: Push shallow refs (mirror)
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+        run: |
+          git push destination --mirror
