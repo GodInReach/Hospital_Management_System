@@ -1,4 +1,4 @@
-ame: Mirror repo to GodInReach
+name: Mirror repo to GodInReach
 
 on:
   push:
