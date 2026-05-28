@@ -1,0 +1,46 @@
+import {
+  MastersFormPage,
+  type MastersFormField,
+} from "../../../../../components/masters-form-page";
+
+const medicineUsageFields: MastersFormField[] = [
+  { id: "code", label: "Code", type: "number", placeholder: "Auto running number" },
+  {
+    id: "medicineUsageMethod",
+    label: "Medicine usage method",
+    type: "text",
+    maxLength: 255,
+  },
+  {
+    id: "toBeTakenAt",
+    label: "To be taken at",
+    type: "multiselect",
+    options: ["Morning", "Mid-day", "Evening", "Sleep", "Need basis"],
+    note: "Multiple Selection allowed",
+  },
+  { id: "remarks", label: "Remarks", type: "textarea", fullWidth: true },
+  { id: "activeFrom", label: "Active From", type: "datetime-local" },
+  {
+    id: "inactiveFrom",
+    label: "Inactive From",
+    type: "datetime-local",
+    note: "Initially it's Blank",
+  },
+  {
+    id: "inactiveReason",
+    label: "Inactive Reason",
+    type: "textarea",
+    fullWidth: true,
+  },
+];
+
+export default function MedicineUsagePage() {
+  return (
+    <MastersFormPage
+      title="Masters - Lab Hospital Facility Masters - Medicine Usage"
+      cardTitle="Medicine Usage"
+      description="Define medicine usage details using the shared template form style."
+      fields={medicineUsageFields}
+    />
+  );
+}
