@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BlankPage } from "./blank-page";
+import { tableNameFromCardTitle } from "../lib/master-form-table";
 
 const HIDDEN_FIELD_NOTES = new Set([
   "character",
@@ -50,12 +52,114 @@ type MastersFormPageProps = {
   fields: MastersFormField[];
 };
 
+type SavedRecord = Record<string, unknown>;
+
+function serializeFormValues(
+  formData: FormData,
+  fields: MastersFormField[],
+): Record<string, string | string[]> {
+  return fields.reduce<Record<string, string | string[]>>((accumulator, field) => {
+    if (field.type === "multiselect" || field.type === "checkbox") {
+      accumulator[field.id] = formData
+        .getAll(field.id)
+        .filter((value): value is string => typeof value === "string");
+      return accumulator;
+    }
+
+    const value = formData.get(field.id);
+    accumulator[field.id] = typeof value === "string" ? value : "";
+    return accumulator;
+  }, {});
+}
+
 export function MastersFormPage({
   title,
   cardTitle,
   description,
   fields,
 }: MastersFormPageProps) {
+  const [records, setRecords] = useState<SavedRecord[]>([]);
+  const [isLoadingRecords, setIsLoadingRecords] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const tableName = tableNameFromCardTitle(cardTitle);
+
+  async function loadRecords() {
+    setIsLoadingRecords(true);
+
+    try {
+      const response = await fetch(`/api/forms/${tableName}`, {
+        method: "GET",
+        cache: "no-store",
+      });
+      const data = (await response.json()) as {
+        rows?: SavedRecord[];
+        error?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(data.error ?? "Failed to load saved records.");
+      }
+
+      setRecords(data.rows ?? []);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to load saved records.";
+      setSubmitError(message);
+    } finally {
+      setIsLoadingRecords(false);
+    }
+  }
+
+  useEffect(() => {
+    void loadRecords();
+  }, [tableName]);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setSubmitMessage(null);
+
+    const form = event.currentTarget;
+    const values = serializeFormValues(new FormData(form), fields);
+
+    try {
+      const response = await fetch(`/api/forms/${tableName}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cardTitle,
+          fields,
+          values,
+        }),
+      });
+
+      const data = (await response.json()) as {
+        error?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(data.error ?? "Failed to save form values.");
+      }
+
+      form.reset();
+      setSubmitMessage(`Saved successfully to ${tableName}.`);
+      await loadRecords();
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to save form values.";
+      setSubmitError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  const recordColumns = Object.keys(records[0] ?? {});
+
   return (
     <BlankPage title={title}>
       <section className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
@@ -69,10 +173,7 @@ export function MastersFormPage({
         </div>
 
         <div className="p-4 sm:p-6">
-          <form
-            className="space-y-8"
-            onSubmit={(event) => event.preventDefault()}
-          >
+          <form className="space-y-8" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
               {fields.map((field) => {
                 const helperText = field.note ?? field.hint;
@@ -197,13 +298,91 @@ export function MastersFormPage({
                 </button>
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="inline-flex items-center justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-brand-600 focus:outline-hidden focus:ring-3 focus:ring-brand-500/25"
                 >
-                  Submit
+                  {isSubmitting ? "Saving..." : "Submit"}
                 </button>
               </div>
             </div>
+
+            {submitMessage ? (
+              <p className="text-sm text-green-600 dark:text-green-400">
+                {submitMessage}
+              </p>
+            ) : null}
+
+            {submitError ? (
+              <p className="text-sm text-red-600 dark:text-red-400">
+                {submitError}
+              </p>
+            ) : null}
           </form>
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+        <div className="border-b border-gray-100 px-6 py-5 dark:border-gray-800">
+          <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
+            Saved Records
+          </h3>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Latest entries stored in the <span className="font-medium">{tableName}</span> table.
+          </p>
+        </div>
+
+        <div className="p-4 sm:p-6">
+          {isLoadingRecords ? (
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Loading saved records...
+            </p>
+          ) : records.length === 0 ? (
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              No records saved yet.
+            </p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200 text-sm dark:divide-gray-800">
+                <thead>
+                  <tr>
+                    {recordColumns.map((column) => (
+                      <th
+                        key={column}
+                        className="px-4 py-3 text-left font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                      >
+                        {column.replace(/_/g, " ")}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                  {records.map((record, index) => (
+                    <tr key={`${String(record.id ?? index)}-${index}`}>
+                      {recordColumns.map((column) => {
+                        const value = record[column];
+                        const displayValue = Array.isArray(value)
+                          ? value.join(", ")
+                          : typeof value === "object" && value !== null
+                            ? JSON.stringify(value)
+                            : value;
+
+                        return (
+                          <td
+                            key={`${index}-${column}`}
+                            className="px-4 py-3 text-gray-700 dark:text-gray-300"
+                          >
+                            {displayValue === null || displayValue === undefined || displayValue === ""
+                              ? "-"
+                              : String(displayValue)}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </section>
     </BlankPage>
