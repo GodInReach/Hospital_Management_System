@@ -9,7 +9,6 @@ const holidayTypeFields: MastersFormField[] = [
     label: "Code",
     type: "number",
     placeholder: "Enter code",
-    hint: "Running Number",
     min: 1,
     inputMode: "numeric",
   },
@@ -18,7 +17,6 @@ const holidayTypeFields: MastersFormField[] = [
     label: "Name",
     type: "text",
     placeholder: "Enter holiday type name",
-    hint: "Free Text",
     maxLength: 150,
   },
 ];

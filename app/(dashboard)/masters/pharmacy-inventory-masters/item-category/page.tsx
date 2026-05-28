@@ -9,7 +9,6 @@ const itemCategoryFields: MastersFormField[] = [
     label: "Group Code",
     type: "text",
     placeholder: "Enter group code",
-    hint: "Alphanumeric only",
     maxLength: 50,
     pattern: "[a-zA-Z0-9]*",
   },
@@ -18,7 +17,6 @@ const itemCategoryFields: MastersFormField[] = [
     label: "Group Name",
     type: "text",
     placeholder: "Enter group name",
-    hint: "Free Text, up to 500 characters",
     maxLength: 500,
   },
 ];

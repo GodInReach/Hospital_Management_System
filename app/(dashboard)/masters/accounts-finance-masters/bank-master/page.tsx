@@ -9,7 +9,6 @@ const bankMasterFields: MastersFormField[] = [
     label: "Bank Code",
     type: "number",
     placeholder: "Enter bank code",
-    hint: "Running Number",
     min: 1,
     inputMode: "numeric",
   },
@@ -18,7 +17,6 @@ const bankMasterFields: MastersFormField[] = [
     label: "Bank Name",
     type: "text",
     placeholder: "Enter bank name",
-    hint: "Free Text",
     maxLength: 150,
   },
   {
@@ -26,7 +24,6 @@ const bankMasterFields: MastersFormField[] = [
     label: "Branch Name",
     type: "text",
     placeholder: "Enter branch name",
-    hint: "Free Text",
     maxLength: 150,
   },
   {
@@ -34,7 +31,6 @@ const bankMasterFields: MastersFormField[] = [
     label: "Account Number",
     type: "text",
     placeholder: "Enter account number",
-    hint: "Free Text",
     maxLength: 30,
   },
   {
@@ -42,7 +38,6 @@ const bankMasterFields: MastersFormField[] = [
     label: "IFSC Code",
     type: "text",
     placeholder: "Enter IFSC code",
-    hint: "Free Text",
     maxLength: 20,
   },
   {
@@ -50,14 +45,12 @@ const bankMasterFields: MastersFormField[] = [
     label: "Account Holder Name",
     type: "text",
     placeholder: "Enter account holder name",
-    hint: "Free Text",
     maxLength: 150,
   },
   {
     id: "accountType",
     label: "Account Type",
     type: "select",
-    hint: "Dropdown",
     options: ["Savings", "Current"],
   },
   {
@@ -65,14 +58,12 @@ const bankMasterFields: MastersFormField[] = [
     label: "Opening Balance",
     type: "text",
     placeholder: "Enter opening balance",
-    hint: "Free Text",
     maxLength: 50,
   },
   {
     id: "status",
     label: "Status",
     type: "select",
-    hint: "Boolean",
     options: ["Active", "Inactive"],
   },
   {
@@ -80,7 +71,6 @@ const bankMasterFields: MastersFormField[] = [
     label: "Remarks",
     type: "textarea",
     placeholder: "Enter remarks",
-    hint: "Free Text",
     fullWidth: true,
   },
 ];

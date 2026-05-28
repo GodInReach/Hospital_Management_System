@@ -4,21 +4,19 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const labFields: MastersFormField[] = [
-  { id: "labCode", label: "Lab Code", type: "text", hint: "Alphanumeric only", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
+  { id: "labCode", label: "Lab Code", type: "text", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
   {
     id: "labName",
     label: "Lab Name",
     type: "text",
-    hint: "Free Text",
     maxLength: 500,
   },
-  { id: "activeFrom", label: "Active From", type: "datetime-local", hint: "Date Time" },
-  { id: "inactiveFrom", label: "Inactive From", type: "datetime-local", hint: "Date Time" },
+  { id: "activeFrom", label: "Active From", type: "datetime-local" },
+  { id: "inactiveFrom", label: "Inactive From", type: "datetime-local" },
   {
     id: "inactiveReason",
     label: "Inactive Reason",
     type: "textarea",
-    hint: "Free Text",
     fullWidth: true,
   },
 ];

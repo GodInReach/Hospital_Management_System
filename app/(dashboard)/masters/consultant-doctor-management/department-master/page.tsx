@@ -47,7 +47,7 @@ export default function DepartmentMasterPage() {
     <MastersFormPage
       title="Masters - Pharmacy Inventory Masters - Department Master"
       cardTitle="Department Master"
-      description="Store department definitions and their active or inactive date ranges."
+      description=""
       fields={departmentMasterFields}
     />
   );

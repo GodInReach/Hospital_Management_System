@@ -4,35 +4,31 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const diseaseFields: MastersFormField[] = [
-  { id: "code", label: "Code", type: "text", hint: "Alphanumeric only", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
+  { id: "code", label: "Code", type: "text", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
   {
     id: "description",
     label: "Description",
     type: "text",
-    hint: "Free Text",
     maxLength: 500,
   },
   {
     id: "standardValueMinimum",
     label: "Standard Value - Minimum",
     type: "number",
-    hint: "Positive number only",
     min: 0,
   },
   {
     id: "standardValueMaximum",
     label: "Standard Value - Maximum",
     type: "number",
-    hint: "Positive number only",
     min: 0,
   },
-  { id: "activeFrom", label: "Active From", type: "datetime-local", hint: "Date Time" },
-  { id: "inactiveFrom", label: "Inactive From", type: "datetime-local", hint: "Date Time" },
+  { id: "activeFrom", label: "Active From", type: "datetime-local" },
+  { id: "inactiveFrom", label: "Inactive From", type: "datetime-local" },
   {
     id: "inactiveReason",
     label: "Inactive Reason",
     type: "textarea",
-    hint: "Free Text",
     fullWidth: true,
   },
 ];
@@ -42,7 +38,7 @@ export default function DiseasePage() {
     <MastersFormPage
       title="Masters - Clinical Masters - Disease"
       cardTitle="Disease Master"
-      description="Define disease master details using the shared template form style."
+      description=""
       fields={diseaseFields}
     />
   );
