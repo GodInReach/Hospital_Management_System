@@ -4,7 +4,7 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const allergyFields: MastersFormField[] = [
-  { id: "code", label: "Code", type: "number", hint: "Number" },
+  { id: "code", label: "Code", type: "text", hint: "Alphanumeric only", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
   {
     id: "description",
     label: "Description",

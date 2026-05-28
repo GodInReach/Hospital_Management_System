@@ -4,7 +4,7 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const labFields: MastersFormField[] = [
-  { id: "labCode", label: "Lab Code", type: "number", hint: "Number" },
+  { id: "labCode", label: "Lab Code", type: "text", hint: "Alphanumeric only", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
   {
     id: "labName",
     label: "Lab Name",

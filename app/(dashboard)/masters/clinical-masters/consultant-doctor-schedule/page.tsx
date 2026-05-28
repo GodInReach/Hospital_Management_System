@@ -4,7 +4,7 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const consultantDoctorScheduleFields: MastersFormField[] = [
-  { id: "scheduleNo", label: "Schedule No", type: "number", hint: "Number" },
+  { id: "scheduleNo", label: "Schedule No", type: "text", hint: "Alphanumeric only", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
   {
     id: "consultantDoctorName",
     label: "Consultant / Doctor Name",
@@ -29,14 +29,16 @@ const consultantDoctorScheduleFields: MastersFormField[] = [
   {
     id: "daysAvailable",
     label: "Days Available",
-    type: "text",
-    hint: "Sun, Mon, Tue, Wed, Thu, Fri, Sat",
+    type: "checkbox",
+    hint: "Select days",
+    options: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
   },
   {
     id: "timeSlotMinutes",
     label: "Time Slot (In minutes)",
     type: "number",
-    hint: "Number",
+    hint: "Positive number only",
+    min: 0,
   },
   { id: "activeFrom", label: "Active From", type: "datetime-local", hint: "Date Time" },
   { id: "inactiveFrom", label: "Inactive From", type: "datetime-local", hint: "Date Time" },

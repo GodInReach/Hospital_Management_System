@@ -4,7 +4,7 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const diseaseFields: MastersFormField[] = [
-  { id: "code", label: "Code", type: "number", hint: "Number" },
+  { id: "code", label: "Code", type: "text", hint: "Alphanumeric only", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
   {
     id: "description",
     label: "Description",
@@ -16,13 +16,15 @@ const diseaseFields: MastersFormField[] = [
     id: "standardValueMinimum",
     label: "Standard Value - Minimum",
     type: "number",
-    hint: "Number",
+    hint: "Positive number only",
+    min: 0,
   },
   {
     id: "standardValueMaximum",
     label: "Standard Value - Maximum",
     type: "number",
-    hint: "Number",
+    hint: "Positive number only",
+    min: 0,
   },
   { id: "activeFrom", label: "Active From", type: "datetime-local", hint: "Date Time" },
   { id: "inactiveFrom", label: "Inactive From", type: "datetime-local", hint: "Date Time" },

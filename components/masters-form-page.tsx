@@ -24,6 +24,7 @@ export type MastersFormField = {
     | "number"
     | "select"
     | "multiselect"
+    | "checkbox"
     | "display"
     | "datetime-local"
     | "date"
@@ -35,6 +36,8 @@ export type MastersFormField = {
   min?: number;
   max?: number;
   step?: string;
+  pattern?: string;
+  inputMode?: "text" | "numeric" | "tel" | "email" | "url";
   options?: string[];
   fullWidth?: boolean;
   note?: string;
@@ -118,6 +121,20 @@ export function MastersFormPage({
                           </option>
                         ))}
                       </select>
+                    ) : field.type === "checkbox" ? (
+                      <div className="space-y-2">
+                        {(field.options ?? []).map((option) => (
+                          <label key={option} className="flex items-center gap-2 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              name={field.id}
+                              value={option}
+                              className="h-4 w-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500"
+                            />
+                            <span className="text-sm text-gray-700 dark:text-gray-300">{option}</span>
+                          </label>
+                        ))}
+                      </div>
                     ) : field.type === "textarea" ? (
                       <textarea
                         id={field.id}
@@ -137,7 +154,18 @@ export function MastersFormPage({
                         max={field.max}
                         step={field.step}
                         maxLength={field.maxLength}
+                        pattern={field.pattern}
+                        inputMode={field.inputMode}
                         readOnly={field.type === "display"}
+                        onChange={(e) => {
+                          if (field.pattern === "[a-zA-Z\\s]*") {
+                            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+                          } else if (field.pattern === "[0-9]*" || field.pattern === "[0-9]{10}" || field.pattern === "[0-9]{6}") {
+                            e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                          } else if (field.pattern === "[a-zA-Z0-9]*") {
+                            e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+                          }
+                        }}
                         className="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
                       />
                     )}

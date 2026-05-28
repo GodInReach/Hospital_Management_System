@@ -4,16 +4,9 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const patientDetailsFields: MastersFormField[] = [
-  { id: "patientId", label: "Patient ID", type: "number", hint: "Number" },
-  { id: "patientName", label: "Patient Name", type: "text", hint: "Free Text", maxLength: 500 },
+  { id: "patientId", label: "Patient ID", type: "text", hint: "Alphanumeric only", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
+  { id: "patientName", label: "Patient Name", type: "text", hint: "Alphabets only", maxLength: 500, pattern: "[a-zA-Z\\s]*" },
   { id: "address", label: "Address", type: "textarea", hint: "Free Text", fullWidth: true },
-  {
-    id: "city",
-    label: "City",
-    type: "select",
-    hint: "LOV",
-    options: ["Chennai", "Coimbatore", "Madurai", "Trichy"],
-  },
   {
     id: "country",
     label: "Country",
@@ -21,17 +14,32 @@ const patientDetailsFields: MastersFormField[] = [
     hint: "LOV",
     options: ["India", "Sri Lanka", "Singapore", "UAE"],
   },
-  { id: "zipCode", label: "ZIP Code", type: "text", hint: "Free Text", maxLength: 20 },
+  {
+    id: "state",
+    label: "State",
+    type: "select",
+    hint: "LOV",
+    options: ["Tamil Nadu", "Telangana", "Karnataka", "Other"],
+  },
+  {
+    id: "city",
+    label: "City",
+    type: "select",
+    hint: "LOV",
+    options: ["Chennai", "Coimbatore", "Madurai", "Trichy"],
+  },
+  { id: "zipCode", label: "ZIP Code", type: "text", hint: "6 digits only", maxLength: 6, pattern: "[0-9]{6}", inputMode: "numeric" },
   { id: "email", label: "eMail", type: "text", hint: "Free Text", maxLength: 255 },
-  { id: "phoneOffice", label: "Phone - Office", type: "text", hint: "Free Text", maxLength: 30 },
-  { id: "phoneResi", label: "Phone - Resi", type: "text", hint: "Free Text", maxLength: 30 },
-  { id: "mobile", label: "Mobile", type: "text", hint: "Free Text", maxLength: 30 },
+  { id: "phoneOffice", label: "Phone - Office", type: "text", hint: "10 digits only", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
+  { id: "phoneResi", label: "Phone - Resi", type: "text", hint: "10 digits only", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
+  { id: "mobile", label: "Mobile", type: "text", hint: "10 digits only", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
   { id: "hnNumber", label: "HN Number", type: "text", hint: "Free Text", maxLength: 50 },
   {
     id: "numberOfVisits",
     label: "Number of Visits till now",
     type: "number",
-    hint: "Number",
+    hint: "Positive number only",
+    min: 0,
   },
   {
     id: "lastVisitDateTime",
