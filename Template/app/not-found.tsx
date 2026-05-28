@@ -1,4 +1,4 @@
-import GridShape from "@/components/common/GridShape";
+import GridShape from "@template/components/common/GridShape";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -28,7 +28,7 @@ export default function NotFound() {
         />
 
         <p className="mt-10 mb-6 text-base text-gray-700 dark:text-gray-400 sm:text-lg">
-          We can’t seem to find the page you are looking for!
+          We canâ€™t seem to find the page you are looking for!
         </p>
 
         <Link
