@@ -7,9 +7,11 @@ const itemCategoryFields: MastersFormField[] = [
   {
     id: "groupCode",
     label: "Group Code",
-    type: "number",
-    placeholder: "Enter running number",
-    hint: "Running Number",
+    type: "text",
+    placeholder: "Enter group code",
+    hint: "Alphanumeric only",
+    maxLength: 50,
+    pattern: "[a-zA-Z0-9]*",
   },
   {
     id: "groupName",

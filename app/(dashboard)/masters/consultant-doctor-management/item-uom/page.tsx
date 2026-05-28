@@ -7,9 +7,11 @@ const itemUomFields: MastersFormField[] = [
   {
     id: "uomCode",
     label: "UOM Code",
-    type: "number",
-    placeholder: "Enter running number",
-    hint: "Running Number",
+    type: "text",
+    placeholder: "Enter UOM code",
+    hint: "Alphanumeric only",
+    maxLength: 50,
+    pattern: "[a-zA-Z0-9]*",
   },
   {
     id: "uomDescription",

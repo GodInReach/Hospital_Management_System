@@ -7,9 +7,11 @@ const manufacturerFields: MastersFormField[] = [
   {
     id: "manufacturerCode",
     label: "Code",
-    type: "number",
-    placeholder: "Enter running number",
-    hint: "Running Number",
+    type: "text",
+    placeholder: "Enter manufacturer code",
+    hint: "Alphanumeric only",
+    maxLength: 50,
+    pattern: "[a-zA-Z0-9]*",
   },
   {
     id: "manufacturerName",

@@ -7,9 +7,11 @@ const patientTypeFields: MastersFormField[] = [
   {
     id: "typeCode",
     label: "Type Code",
-    type: "number",
-    placeholder: "Enter running number",
-    hint: "Running Number",
+    type: "text",
+    placeholder: "Enter type code",
+    hint: "Alphanumeric only",
+    maxLength: 50,
+    pattern: "[a-zA-Z0-9]*",
   },
   {
     id: "description",
