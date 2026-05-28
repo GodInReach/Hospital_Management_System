@@ -4,12 +4,13 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const labFields: MastersFormField[] = [
-  { id: "labCode", label: "Lab Code", type: "text", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
+  { id: "labCode", label: "Lab Code", type: "text", pattern: "[a-zA-Z0-9]*" },
   {
     id: "labName",
     label: "Lab Name",
     type: "text",
     maxLength: 500,
+    pattern: "[a-zA-Z\\s]*",
   },
   { id: "activeFrom", label: "Active From", type: "datetime-local" },
   { id: "inactiveFrom", label: "Inactive From", type: "datetime-local" },
@@ -26,7 +27,7 @@ export default function LabPage() {
     <MastersFormPage
       title="Masters - Clinical Masters - Lab"
       cardTitle="Lab Master"
-      description="Define lab master details using the shared template form style."
+      description=""
       fields={labFields}
     />
   );

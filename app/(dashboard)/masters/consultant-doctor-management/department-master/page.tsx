@@ -7,9 +7,10 @@ const departmentMasterFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    note: "Number",
+    note: "",
   },
   {
     id: "departmentType",

@@ -7,17 +7,19 @@ const holidayMasterFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    note: "Number",
+    note: "",
   },
   {
     id: "holidayName",
     label: "Holiday Name",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter holiday name",
     maxLength: 120,
-    note: "Free Text",
+    note: "",
   },
   {
     id: "date",
@@ -60,7 +62,7 @@ export default function HolidayMasterPage() {
     <MastersFormPage
       title="Masters - Pharmacy Inventory Masters - Holiday Master"
       cardTitle="Holiday Master"
-      description="Set up holiday names, categories, and effective dates for the organization."
+      description=""
       fields={holidayMasterFields}
     />
   );

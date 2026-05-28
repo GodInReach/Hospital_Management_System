@@ -4,12 +4,13 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const medicineUsageFields: MastersFormField[] = [
-  { id: "code", label: "Code", type: "number", placeholder: "Auto running number" },
+  { id: "code", label: "Code", type: "text", pattern: "[a-zA-Z0-9]*", placeholder: "Auto running number" },
   {
     id: "medicineUsageMethod",
     label: "Medicine usage method",
     type: "text",
     maxLength: 255,
+    pattern: "[a-zA-Z\\s]*",
   },
   {
     id: "toBeTakenAt",

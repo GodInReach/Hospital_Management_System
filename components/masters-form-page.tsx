@@ -256,13 +256,20 @@ export function MastersFormPage({
                         name={field.id}
                         type={field.type === "display" ? "text" : field.type}
                         placeholder={field.placeholder}
-                        min={field.min}
+                        min={field.min ?? (field.type === "number" ? 0 : undefined)}
                         max={field.max}
                         step={field.step}
                         maxLength={field.maxLength}
                         pattern={field.pattern}
                         inputMode={field.inputMode}
                         readOnly={field.type === "display"}
+                        onKeyDown={(e) => {
+                          if (field.type === "number") {
+                            if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
+                              e.preventDefault();
+                            }
+                          }
+                        }}
                         onChange={(e) => {
                           if (field.pattern === "[a-zA-Z\\s]*") {
                             e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, "");

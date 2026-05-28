@@ -7,17 +7,19 @@ const equipmentMasterFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    note: "Number",
+    note: "",
   },
   {
     id: "equipmentName",
     label: "Equipment Name",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter equipment name",
     maxLength: 120,
-    note: "Free Text",
+    note: "",
   },
   {
     id: "usageRate",
@@ -55,7 +57,7 @@ export default function EquipmentMasterPage() {
     <MastersFormPage
       title="Masters - Pharmacy Inventory Masters - Equipment Master"
       cardTitle="Equipment Master"
-      description="Define equipment names, usage rates, and activation lifecycle details."
+      description=""
       fields={equipmentMasterFields}
     />
   );

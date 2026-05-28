@@ -4,8 +4,8 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const roomMasterFields: MastersFormField[] = [
-  { id: "code", label: "Code", type: "number" },
-  { id: "description", label: "Description", type: "text", maxLength: 500 },
+  { id: "code", label: "Code", type: "text", pattern: "[a-zA-Z0-9]*" },
+  { id: "description", label: "Description", type: "text", maxLength: 500, pattern: "[a-zA-Z\\s]*" },
   {
     id: "roomType",
     label: "Room Type",
@@ -29,7 +29,7 @@ export default function RoomMasterPage() {
     <MastersFormPage
       title="Masters - Lab Hospital Facility Masters - Room Master"
       cardTitle="Room Master"
-      description="Define room master details using the shared template form style."
+      description=""
       fields={roomMasterFields}
     />
   );

@@ -4,8 +4,8 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const bedFields: MastersFormField[] = [
-  { id: "code", label: "Code", type: "number" },
-  { id: "description", label: "Description", type: "text", maxLength: 500 },
+  { id: "code", label: "Code", type: "text", pattern: "[a-zA-Z0-9]*" },
+  { id: "description", label: "Description", type: "text", maxLength: 500, pattern: "[a-zA-Z\\s]*" },
   { id: "rate", label: "Rate", type: "number" },
   {
     id: "ward",
@@ -28,7 +28,7 @@ export default function BedPage() {
     <MastersFormPage
       title="Masters - Lab Hospital Facility Masters - Bed"
       cardTitle="Bed Master"
-      description="Define bed details using the shared template form style."
+      description=""
       fields={bedFields}
     />
   );
