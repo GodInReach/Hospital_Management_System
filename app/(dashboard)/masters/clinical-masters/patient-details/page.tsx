@@ -39,14 +39,13 @@ export default function PatientDetailsPage() {
   };
 
   const patientDetailsFields: MastersFormField[] = [
-    { id: "patientId", label: "Patient ID", type: "text", hint: "Alphanumeric only", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
-    { id: "patientName", label: "Patient Name", type: "text", hint: "Alphabets only", maxLength: 500, pattern: "[a-zA-Z\\s]*" },
-    { id: "address", label: "Address", type: "textarea", hint: "Free Text", fullWidth: true },
+    { id: "patientId", label: "Patient ID", type: "text", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
+    { id: "patientName", label: "Patient Name", type: "text", maxLength: 500, pattern: "[a-zA-Z\\s]*" },
+    { id: "address", label: "Address", type: "textarea", fullWidth: true },
     {
       id: "country",
       label: "Country",
       type: "select",
-      hint: "LOV",
       options: countries.map((c) => c.name),
       onChange: handleCountryChange,
     },
@@ -54,7 +53,6 @@ export default function PatientDetailsPage() {
       id: "state",
       label: "State",
       type: "select",
-      hint: "LOV",
       options: states.map((s) => s.name),
       onChange: handleStateChange,
     },
@@ -62,86 +60,75 @@ export default function PatientDetailsPage() {
       id: "city",
       label: "City",
       type: "select",
-      hint: "LOV",
       options: cities.map((c) => c.name),
     },
-    { id: "zipCode", label: "ZIP Code", type: "text", hint: "6 digits only", maxLength: 6, pattern: "[0-9]{6}", inputMode: "numeric" },
-    { id: "email", label: "eMail", type: "text", hint: "Free Text", maxLength: 255 },
-    { id: "phoneOffice", label: "Phone - Office", type: "text", hint: "10 digits only", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
-    { id: "phoneResi", label: "Phone - Resi", type: "text", hint: "10 digits only", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
-    { id: "mobile", label: "Mobile", type: "text", hint: "10 digits only", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
-    { id: "hnNumber", label: "HN Number", type: "text", hint: "Free Text", maxLength: 50 },
+    { id: "zipCode", label: "ZIP Code", type: "text", maxLength: 6, pattern: "[0-9]{6}", inputMode: "numeric" },
+    { id: "email", label: "eMail", type: "text", maxLength: 255 },
+    { id: "phoneOffice", label: "Phone - Office", type: "text", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
+    { id: "phoneResi", label: "Phone - Resi", type: "text", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
+    { id: "mobile", label: "Mobile", type: "text", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
+    { id: "hnNumber", label: "HN Number", type: "text", maxLength: 50 },
     {
       id: "numberOfVisits",
       label: "Number of Visits till now",
       type: "number",
-      hint: "Positive number only",
       min: 0,
     },
     {
       id: "lastVisitDateTime",
       label: "Last Visit Date & Time",
       type: "datetime-local",
-      hint: "Date & Time",
     },
     {
       id: "lastVisitDoctorName",
       label: "Last visit doctor name",
       type: "text",
-      hint: "Free Text",
       maxLength: 255,
     },
-    { id: "profession", label: "Profession", type: "text", hint: "Free Text", maxLength: 255 },
+    { id: "profession", label: "Profession", type: "text", maxLength: 255 },
     {
       id: "patientType",
       label: "Patient Type",
       type: "select",
-      hint: "LOV",
       options: ["General", "Corporate", "Insurance", "VIP"],
     },
     {
       id: "preferredPaymentType",
       label: "Preferred Payment Type",
       type: "select",
-      hint: "Cash / Card",
       options: ["Cash", "Card"],
     },
     {
       id: "mediclaimPolicyAvailable",
       label: "Mediclaim Policy Available",
       type: "select",
-      hint: "Yes / No",
       options: ["Yes", "No"],
     },
     {
       id: "policyDetails",
       label: "Policy Details",
       type: "textarea",
-      hint: "Free Text",
       fullWidth: true,
     },
     {
       id: "linkedPatientId",
       label: "Linked Patient Id",
       type: "select",
-      hint: "LOV",
       options: ["P1001", "P1002", "P1003", "P1004"],
     },
     {
       id: "relationshipShipLinkedPatient",
       label: "Relation Ship - Linked Patient",
       type: "select",
-      hint: "LOV",
       options: ["Spouse", "Child", "Parent", "Sibling"],
-      note: "The above two fields should allow multiple records against a patient.",
+      note: "",
     },
-    { id: "activeFrom", label: "Active From", type: "datetime-local", hint: "Date Time" },
-    { id: "inactiveFrom", label: "Inactive From", type: "datetime-local", hint: "Date Time" },
+    { id: "activeFrom", label: "Active From", type: "datetime-local" },
+    { id: "inactiveFrom", label: "Inactive From", type: "datetime-local" },
     {
       id: "inactiveReason",
       label: "Inactive Reason",
       type: "textarea",
-      hint: "Free Text",
       fullWidth: true,
     },
   ];
@@ -150,7 +137,7 @@ export default function PatientDetailsPage() {
     <MastersFormPage
       title="Masters - Clinical Masters - Patient Details"
       cardTitle="Patient Details"
-      description="Define patient details using the shared template form style."
+      description=""
       fields={patientDetailsFields}
     />
   );

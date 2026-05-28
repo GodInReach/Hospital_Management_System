@@ -9,7 +9,6 @@ const manufacturerFields: MastersFormField[] = [
     label: "Code",
     type: "text",
     placeholder: "Enter manufacturer code",
-    hint: "Alphanumeric only",
     maxLength: 50,
     pattern: "[a-zA-Z0-9]*",
   },
@@ -18,7 +17,6 @@ const manufacturerFields: MastersFormField[] = [
     label: "Manufacturer Name",
     type: "text",
     placeholder: "Enter manufacturer name",
-    hint: "Free Text, up to 500 characters",
     maxLength: 500,
   },
 ];

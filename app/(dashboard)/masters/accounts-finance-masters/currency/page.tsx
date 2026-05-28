@@ -9,7 +9,6 @@ const currencyFields: MastersFormField[] = [
     label: "Code",
     type: "number",
     placeholder: "Enter code",
-    hint: "Running Number",
     min: 1,
     inputMode: "numeric",
   },
@@ -18,7 +17,6 @@ const currencyFields: MastersFormField[] = [
     label: "Name",
     type: "text",
     placeholder: "Enter currency name",
-    hint: "Free Text",
     maxLength: 100,
   },
 ];

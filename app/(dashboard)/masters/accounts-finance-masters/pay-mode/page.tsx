@@ -9,7 +9,6 @@ const payModeFields: MastersFormField[] = [
     label: "Code",
     type: "number",
     placeholder: "Enter code",
-    hint: "Running Number",
     min: 1,
     inputMode: "numeric",
   },
@@ -18,7 +17,6 @@ const payModeFields: MastersFormField[] = [
     label: "Description",
     type: "text",
     placeholder: "Enter description",
-    hint: "Free Text",
     maxLength: 200,
   },
 ];

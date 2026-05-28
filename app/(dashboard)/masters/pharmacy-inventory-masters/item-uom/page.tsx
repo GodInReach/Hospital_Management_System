@@ -9,7 +9,6 @@ const itemUomFields: MastersFormField[] = [
     label: "UOM Code",
     type: "text",
     placeholder: "Enter UOM code",
-    hint: "Alphanumeric only",
     maxLength: 50,
     pattern: "[a-zA-Z0-9]*",
   },
@@ -18,7 +17,6 @@ const itemUomFields: MastersFormField[] = [
     label: "UOM Description",
     type: "text",
     placeholder: "Enter UOM description",
-    hint: "Free Text, up to 100 characters",
     maxLength: 100,
   },
 ];

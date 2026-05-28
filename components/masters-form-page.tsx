@@ -16,6 +16,9 @@ const HIDDEN_FIELD_NOTES = new Set([
   "yes / no",
   "from lov",
   "cash / cheque / rtgs / neft / online transfer",
+  "10 digit only",
+  "alphanumeric only",
+  "positive numbers only",
 ]);
 
 export type MastersFormField = {

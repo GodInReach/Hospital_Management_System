@@ -1,4 +1,4 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { ThemeProvider } from '../components/context/ThemeContext';
 import { SidebarProvider } from '../components/context/SidebarContext';
 import { DashboardShell } from '../components/dashboard-shell';
