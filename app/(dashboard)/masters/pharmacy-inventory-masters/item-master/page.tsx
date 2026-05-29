@@ -4,8 +4,8 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const itemMasterFields: MastersFormField[] = [
-  { id: "itemCode", label: "Item Code", type: "number", placeholder: "Auto running number" },
-  { id: "itemName", label: "Item Name", type: "text", maxLength: 255 },
+  { id: "itemCode", label: "Item Code", type: "text", pattern: "[a-zA-Z0-9]*", placeholder: "Auto running number" },
+  { id: "itemName", label: "Item Name", type: "text", maxLength: 255, pattern: "[a-zA-Z\\s]*" },
   {
     id: "itemCategory",
     label: "Item Category",
@@ -32,7 +32,7 @@ const itemMasterFields: MastersFormField[] = [
     placeholder: "Auto display",
   },
   { id: "salesPrice", label: "Sales Price", type: "number" },
-  { id: "medicineCombination", label: "Medicine Combination", type: "text", maxLength: 255 },
+  { id: "medicineCombination", label: "Medicine Combination", type: "text", maxLength: 255, pattern: "[a-zA-Z\\s]*" },
   { id: "currentStock", label: "Current Stock", type: "number" },
   { id: "minimumStockQty", label: "Minimum Stock Qty", type: "number" },
   { id: "maximumStockQty", label: "Maximum Stock Qty", type: "number" },
@@ -63,7 +63,7 @@ export default function ItemMasterPage() {
     <MastersFormPage
       title="Masters - Lab Hospital Facility Masters - Item Master"
       cardTitle="Item Master (Medicine)"
-      description="Define medicine item master details using the shared template form style."
+      description=""
       fields={itemMasterFields}
     />
   );

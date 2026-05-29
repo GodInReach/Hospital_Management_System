@@ -41,16 +41,18 @@ export default function SubLedgerMasterPage() {
       id: "code",
       label: "Code",
       type: "text",
+      pattern: "[a-zA-Z0-9]*",
       placeholder: "Enter sub ledger code",
-      note: "Character",
+      note: "Alphanumeric",
     },
     {
       id: "subLedgerName",
       label: "Sub Ledger Name",
       type: "text",
+      pattern: "[a-zA-Z\\s]*",
       placeholder: "Enter sub ledger name",
       maxLength: 120,
-      note: "Free Text",
+      note: "",
     },
     {
       id: "ledger",
@@ -239,7 +241,7 @@ export default function SubLedgerMasterPage() {
     <MastersFormPage
       title="Masters - Pharmacy Inventory Masters - Sub Ledger Master"
       cardTitle="Sub Ledger Master"
-      description="Maintain sub ledger contact, banking, tax, and payment preference details."
+      description=""
       fields={subLedgerMasterFields}
     />
   );

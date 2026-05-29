@@ -4,11 +4,12 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const medicineUsageFields: MastersFormField[] = [
-  { id: "code", label: "Code", type: "number", placeholder: "Auto running number" },
+  { id: "code", label: "Code", type: "text", pattern: "[a-zA-Z0-9]*", placeholder: "Auto running number" },
   {
     id: "medicineUsageMethod",
     label: "Medicine usage method",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     maxLength: 255,
   },
   {
@@ -39,7 +40,7 @@ export default function MedicineUsagePage() {
     <MastersFormPage
       title="Masters - Lab Hospital Facility Masters - Medicine Usage"
       cardTitle="Medicine Usage"
-      description="Define medicine usage details using the shared template form style."
+      description=""
       fields={medicineUsageFields}
     />
   );

@@ -7,15 +7,16 @@ const serviceFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    min: 1,
-    inputMode: "numeric",
+    inputMode: "text",
   },
   {
     id: "description",
     label: "Description",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter description",
     maxLength: 200,
   },
@@ -52,7 +53,7 @@ export default function ServicePage() {
     <MastersFormPage
       title="Masters - Accounts Finance Masters - Service"
       cardTitle="Service"
-      description="Maintain service pricing and activation timelines in the shared master form layout."
+      description=""
       fields={serviceFields}
     />
   );

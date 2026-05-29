@@ -7,15 +7,16 @@ const warehouseFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    min: 1,
-    inputMode: "numeric",
+    inputMode: "text",
   },
   {
     id: "warehouseName",
     label: "Warehouse Name",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter warehouse name",
     maxLength: 150,
   },
@@ -55,7 +56,7 @@ export default function WarehouseMasterPage() {
     <MastersFormPage
       title="Masters - Accounts Finance Masters - Warehouse Master"
       cardTitle="Warehouse"
-      description="Maintain warehouse identity, address, type, and active status details."
+      description=""
       fields={warehouseFields}
     />
   );

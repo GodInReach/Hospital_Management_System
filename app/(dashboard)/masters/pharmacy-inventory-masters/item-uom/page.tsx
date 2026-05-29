@@ -18,6 +18,7 @@ const itemUomFields: MastersFormField[] = [
     type: "text",
     placeholder: "Enter UOM description",
     maxLength: 100,
+    pattern: "[a-zA-Z\\s]*",
   },
 ];
 
@@ -26,7 +27,7 @@ export default function ItemUomPage() {
     <MastersFormPage
       title="Masters - Consultant Doctor Management - Item UOM"
       cardTitle="UOM Master"
-      description="Define unit of measure details using the shared template form style."
+      description=""
       fields={itemUomFields}
     />
   );

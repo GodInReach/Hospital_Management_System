@@ -7,17 +7,19 @@ const creditCardTypeFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    note: "Number",
+    note: "",
   },
   {
     id: "cardType",
     label: "Card Type",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter card type",
     maxLength: 100,
-    note: "Free Text",
+    note: "",
   },
   {
     id: "serviceChargePercentage",
@@ -55,7 +57,7 @@ export default function CreditCardTypeMasterPage() {
     <MastersFormPage
       title="Masters - Pharmacy Inventory Masters - Credit Card Type Master"
       cardTitle="Credit Card Type Master"
-      description="Configure supported card types along with service charge percentages and lifecycle dates."
+      description=""
       fields={creditCardTypeFields}
     />
   );

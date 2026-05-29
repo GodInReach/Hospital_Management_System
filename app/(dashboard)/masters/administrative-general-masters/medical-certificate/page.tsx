@@ -7,17 +7,19 @@ const medicalCertificateFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    note: "Number",
+    note: "",
   },
   {
     id: "description",
     label: "Description",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter description",
     maxLength: 120,
-    note: "Free Text",
+    note: "",
   },
   {
     id: "defaultMessage",
@@ -55,7 +57,7 @@ export default function AdministrativeMedicalCertificatePage() {
     <MastersFormPage
       title="Masters - Administrative General Masters - Medical Certificate"
       cardTitle="Medical Certificate Master"
-      description="Define medical certificate descriptions, default messages, and active periods."
+      description=""
       fields={medicalCertificateFields}
     />
   );

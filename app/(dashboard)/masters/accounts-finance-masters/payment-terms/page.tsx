@@ -9,15 +9,16 @@ const paymentTermsFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    min: 1,
-    inputMode: "numeric",
+    inputMode: "text",
   },
   {
     id: "name",
     label: "Name",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter name",
     maxLength: 200,
   },
@@ -43,6 +44,7 @@ const paymentTermsFields: MastersFormField[] = [
     id: "description",
     label: "Description",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter description",
     maxLength: 300,
     fullWidth: true,
@@ -54,7 +56,7 @@ export default function PaymentTermsPage() {
     <MastersFormPage
       title="Masters - Accounts Finance Masters - Payment Terms"
       cardTitle="Payment Terms"
-      description="Define payment term rules including type, day, and month scheduling options."
+      description=""
       fields={paymentTermsFields}
     />
   );

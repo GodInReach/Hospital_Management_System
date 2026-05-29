@@ -7,15 +7,16 @@ const holidayTypeFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    min: 1,
-    inputMode: "numeric",
+    inputMode: "text",
   },
   {
     id: "name",
     label: "Name",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter holiday type name",
     maxLength: 150,
   },
@@ -26,7 +27,7 @@ export default function HolidayTypePage() {
     <MastersFormPage
       title="Masters - Accounts Finance Masters - Holiday Type"
       cardTitle="Holiday Type"
-      description="Maintain holiday type master values with code and name fields."
+      description=""
       fields={holidayTypeFields}
     />
   );

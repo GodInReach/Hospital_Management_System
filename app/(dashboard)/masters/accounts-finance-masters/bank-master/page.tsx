@@ -7,15 +7,16 @@ const bankMasterFields: MastersFormField[] = [
   {
     id: "bankCode",
     label: "Bank Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter bank code",
-    min: 1,
-    inputMode: "numeric",
+    inputMode: "text",
   },
   {
     id: "bankName",
     label: "Bank Name",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter bank name",
     maxLength: 150,
   },
@@ -23,6 +24,7 @@ const bankMasterFields: MastersFormField[] = [
     id: "branchName",
     label: "Branch Name",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter branch name",
     maxLength: 150,
   },
@@ -31,7 +33,8 @@ const bankMasterFields: MastersFormField[] = [
     label: "Account Number",
     type: "text",
     placeholder: "Enter account number",
-    maxLength: 30,
+    maxLength: 18,
+    pattern: "[0-9]*",
   },
   {
     id: "ifscCode",
@@ -44,6 +47,7 @@ const bankMasterFields: MastersFormField[] = [
     id: "accountHolderName",
     label: "Account Holder Name",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter account holder name",
     maxLength: 150,
   },
@@ -80,7 +84,7 @@ export default function BankMasterPage() {
     <MastersFormPage
       title="Masters - Accounts Finance Masters - Bank Master"
       cardTitle="Bank Master"
-      description="Maintain bank account and branch details for finance operations."
+      description=""
       fields={bankMasterFields}
     />
   );

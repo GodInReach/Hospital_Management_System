@@ -4,8 +4,8 @@ import {
 } from "../../../../../components/masters-form-page";
 
 const accountTypeFields: MastersFormField[] = [
-  { id: "code", label: "Code", type: "number" },
-  { id: "description", label: "Description", type: "text", maxLength: 500 },
+  { id: "code", label: "Code", type: "text", pattern: "[a-zA-Z0-9]*" },
+  { id: "description", label: "Description", type: "text", maxLength: 500, pattern: "[a-zA-Z\\s]*" },
   { id: "activeFrom", label: "Active From", type: "datetime-local" },
   { id: "inactiveDateFrom", label: "Inactivate Date From", type: "datetime-local" },
   {
@@ -21,7 +21,7 @@ export default function AccountTypePage() {
     <MastersFormPage
       title="Masters - Lab Hospital Facility Masters - Account Type"
       cardTitle="Account Type"
-      description="Define account type details using the shared template form style."
+      description=""
       fields={accountTypeFields}
     />
   );

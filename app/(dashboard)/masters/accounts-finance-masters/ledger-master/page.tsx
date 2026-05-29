@@ -8,16 +8,18 @@ const ledgerMasterFields: MastersFormField[] = [
     id: "code",
     label: "Code",
     type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter ledger code",
-    note: "Character",
+    note: "",
   },
   {
     id: "ledgerName",
     label: "Ledger Name",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter ledger name",
     maxLength: 100,
-    note: "Free Text",
+    note: "",
   },
   {
     id: "controlAccount",
@@ -68,7 +70,7 @@ export default function LedgerMasterPage() {
     <MastersFormPage
       title="Masters - Pharmacy Inventory Masters - Ledger Master"
       cardTitle="Ledger Master"
-      description="Capture ledger definitions, account classification, and active dates."
+      description=""
       fields={ledgerMasterFields}
     />
   );

@@ -18,6 +18,7 @@ const itemCategoryFields: MastersFormField[] = [
     type: "text",
     placeholder: "Enter group name",
     maxLength: 500,
+    pattern: "[a-zA-Z\\s]*",
   },
 ];
 
@@ -26,7 +27,7 @@ export default function ItemCategoryPage() {
     <MastersFormPage
       title="Masters - Consultant Doctor Management - Item Category"
       cardTitle="Item Category Master"
-      description="Define item category master details using the shared template form style."
+      description=""
       fields={itemCategoryFields}
     />
   );

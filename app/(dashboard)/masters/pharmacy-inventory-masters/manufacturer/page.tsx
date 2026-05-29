@@ -18,6 +18,7 @@ const manufacturerFields: MastersFormField[] = [
     type: "text",
     placeholder: "Enter manufacturer name",
     maxLength: 500,
+    pattern: "[a-zA-Z\\s]*",
   },
 ];
 
@@ -26,7 +27,7 @@ export default function ManufacturerPage() {
     <MastersFormPage
       title="Masters - Consultant Doctor Management - Manufacturer"
       cardTitle="Manufacturer Master"
-      description="Define manufacturer details using the shared template form style."
+      description=""
       fields={manufacturerFields}
     />
   );

@@ -40,7 +40,7 @@ export default function MedicineUsagePage() {
     <MastersFormPage
       title="Masters - Lab Hospital Facility Masters - Medicine Usage"
       cardTitle="Medicine Usage"
-      description="Define medicine usage details using the shared template form style."
+      description=""
       fields={medicineUsageFields}
     />
   );

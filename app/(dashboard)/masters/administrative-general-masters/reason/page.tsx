@@ -7,17 +7,19 @@ const reasonFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    note: "Number",
+    note: "",
   },
   {
     id: "description",
     label: "Description",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter description",
     maxLength: 120,
-    note: "Free Text",
+    note: "",
   },
   {
     id: "activeFrom",
@@ -46,7 +48,7 @@ export default function AdministrativeReasonPage() {
     <MastersFormPage
       title="Masters - Administrative General Masters - Reason"
       cardTitle="Reason Master"
-      description="Maintain reusable reason definitions and their effective lifecycle dates."
+      description=""
       fields={reasonFields}
     />
   );

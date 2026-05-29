@@ -7,17 +7,19 @@ const reasonFields: MastersFormField[] = [
   {
     id: "code",
     label: "Code",
-    type: "number",
+    type: "text",
+    pattern: "[a-zA-Z0-9]*",
     placeholder: "Enter code",
-    note: "Number",
+    note: "",
   },
   {
     id: "description",
     label: "Description",
     type: "text",
+    pattern: "[a-zA-Z\\s]*",
     placeholder: "Enter description",
     maxLength: 120,
-    note: "Free Text",
+    note: "",
   },
   {
     id: "activeFrom",
