@@ -45,6 +45,7 @@ export type MastersFormField = {
   inputMode?: "text" | "numeric" | "tel" | "email" | "url";
   options?: string[];
   fullWidth?: boolean;
+  size?: "small" | "medium" | "large" | "full";
   note?: string;
   onChange?: (value: string) => void;
 };
@@ -57,6 +58,20 @@ type MastersFormPageProps = {
 };
 
 type SavedRecord = Record<string, unknown>;
+
+const fieldSizeClasses: Record<NonNullable<MastersFormField["size"]>, string> = {
+  small: "w-full",
+  medium: "w-full",
+  large: "w-full",
+  full: "w-full",
+};
+
+const fieldColumnClasses: Record<NonNullable<MastersFormField["size"]>, string> = {
+  small: "",
+  medium: "",
+  large: "lg:col-span-2",
+  full: "col-span-full",
+};
 
 function serializeFormValues(
   formData: FormData,
@@ -172,6 +187,8 @@ export function MastersFormPage({
   }
 
   const recordColumns = Object.keys(records[0] ?? {});
+  const standardFieldCount = fields.filter((field) => !field.fullWidth).length;
+  const shouldUseThreeColumns = standardFieldCount >= 6;
 
   return (
     <BlankPage title={title}>
@@ -198,17 +215,26 @@ export function MastersFormPage({
         <div className="p-4 sm:p-6">
           {isShowingForm ? (
             <form className="space-y-8" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+              <div
+                className={`grid grid-flow-dense grid-cols-1 items-start gap-4 lg:grid-cols-2 ${
+                  shouldUseThreeColumns ? "xl:grid-cols-3" : ""
+                }`}
+              >
                 {fields.map((field) => {
                   const helperText = field.note ?? field.hint;
                   const shouldShowHelperText =
                     helperText &&
                     !HIDDEN_FIELD_NOTES.has(helperText.trim().toLowerCase());
+                  const fieldSize = field.size ?? (field.fullWidth ? "full" : "medium");
+                  const fieldSizeClass = fieldSizeClasses[fieldSize];
+                  const fieldColumnClass = field.fullWidth
+                    ? fieldColumnClasses.full
+                    : fieldColumnClasses[fieldSize];
 
                   return (
                     <div
                       key={field.id}
-                      className={field.fullWidth ? "lg:col-span-2" : undefined}
+                      className={`${fieldColumnClass} ${fieldSizeClass}`}
                     >
                       <label
                         htmlFor={field.id}

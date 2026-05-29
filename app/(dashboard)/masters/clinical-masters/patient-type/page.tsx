@@ -11,13 +11,15 @@ const patientTypeFields: MastersFormField[] = [
     placeholder: "Enter type code",
     maxLength: 50,
     pattern: "[a-zA-Z0-9]*",
+    size: "small",
   },
   {
     id: "description",
     label: "Description",
-    type: "text",
+    type: "textarea",
     placeholder: "Enter description",
     maxLength: 100,
+    fullWidth: true,
   },
   {
     id: "serviceCharge",
@@ -27,6 +29,7 @@ const patientTypeFields: MastersFormField[] = [
     min: 0,
     max: 100,
     step: "0.01",
+    size: "small",
   },
   {
     id: "doctorFee",
@@ -36,6 +39,7 @@ const patientTypeFields: MastersFormField[] = [
     min: 0,
     max: 100,
     step: "0.01",
+    size: "small",
   },
   {
     id: "labCharges",
@@ -45,6 +49,7 @@ const patientTypeFields: MastersFormField[] = [
     min: 0,
     max: 100,
     step: "0.01",
+    size: "small",
   },
   {
     id: "xrayCharges",
@@ -54,6 +59,7 @@ const patientTypeFields: MastersFormField[] = [
     min: 0,
     max: 100,
     step: "0.01",
+    size: "small",
   },
   {
     id: "medicinePriceList",

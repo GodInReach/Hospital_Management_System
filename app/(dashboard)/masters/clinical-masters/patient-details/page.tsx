@@ -39,9 +39,9 @@ export default function PatientDetailsPage() {
   };
 
   const patientDetailsFields: MastersFormField[] = [
-    { id: "patientId", label: "Patient ID", type: "text", maxLength: 50, pattern: "[a-zA-Z0-9]*" },
-    { id: "patientName", label: "Patient Name", type: "text", maxLength: 500, pattern: "[a-zA-Z\\s]*" },
-    { id: "address", label: "Address", type: "textarea", fullWidth: true },
+    { id: "patientId", label: "Patient ID", type: "text", maxLength: 50, pattern: "[a-zA-Z0-9]*", size: "small" },
+    { id: "patientName", label: "Patient Name", type: "text", maxLength: 500, pattern: "[a-zA-Z\\s]*", size: "medium" },
+    { id: "address", label: "Address", type: "textarea", size: "medium" },
     {
       id: "country",
       label: "Country",
@@ -62,17 +62,18 @@ export default function PatientDetailsPage() {
       type: "select",
       options: cities.map((c) => c.name),
     },
-    { id: "zipCode", label: "ZIP Code", type: "text", maxLength: 6, pattern: "[0-9]{6}", inputMode: "numeric" },
-    { id: "email", label: "eMail", type: "text", maxLength: 255 },
-    { id: "phoneOffice", label: "Phone - Office", type: "text", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
-    { id: "phoneResi", label: "Phone - Resi", type: "text", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
-    { id: "mobile", label: "Mobile", type: "text", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel" },
-    { id: "hnNumber", label: "HN Number", type: "text", maxLength: 50 },
+    { id: "zipCode", label: "ZIP Code", type: "text", maxLength: 6, pattern: "[0-9]{6}", inputMode: "numeric", size: "small" },
+    { id: "email", label: "eMail", type: "text", maxLength: 255, size: "medium" },
+    { id: "phoneOffice", label: "Phone - Office", type: "text", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel", size: "small" },
+    { id: "phoneResi", label: "Phone - Resi", type: "text", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel", size: "small" },
+    { id: "mobile", label: "Mobile", type: "text", maxLength: 10, pattern: "[0-9]{10}", inputMode: "tel", size: "small" },
+    { id: "hnNumber", label: "HN Number", type: "text", maxLength: 50, size: "small" },
     {
       id: "numberOfVisits",
       label: "Number of Visits till now",
       type: "number",
       min: 0,
+      size: "small",
     },
     {
       id: "lastVisitDateTime",
@@ -84,8 +85,9 @@ export default function PatientDetailsPage() {
       label: "Last visit doctor name",
       type: "text",
       maxLength: 255,
+      size: "medium",
     },
-    { id: "profession", label: "Profession", type: "text", maxLength: 255 },
+    { id: "profession", label: "Profession", type: "text", maxLength: 255, size: "medium" },
     {
       id: "patientType",
       label: "Patient Type",
