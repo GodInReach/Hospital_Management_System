@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PageBreadCrumb from "../../Template/components/common/PageBreadCrumb";
+import PageBreadCrumb from "../../components/PageBreadCrumb";
 import { PricingSection } from "../../components/hospital-pricing-section";
 
 export const metadata: Metadata = {
