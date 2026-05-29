@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { BlankPage } from "./blank-page";
 import { tableNameFromCardTitle } from "../lib/master-form-table";
@@ -88,12 +88,12 @@ export function MastersFormPage({
   const [records, setRecords] = useState<SavedRecord[]>([]);
   const [isLoadingRecords, setIsLoadingRecords] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isViewingRecords, setIsViewingRecords] = useState(false);
+  const [isShowingForm, setIsShowingForm] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const tableName = tableNameFromCardTitle(cardTitle);
 
-  async function loadRecords() {
+  const loadRecords = useCallback(async () => {
     setIsLoadingRecords(true);
 
     try {
@@ -118,11 +118,15 @@ export function MastersFormPage({
     } finally {
       setIsLoadingRecords(false);
     }
-  }
+  }, [tableName]);
 
   useEffect(() => {
-    void loadRecords();
-  }, [tableName]);
+    const timeoutId = window.setTimeout(() => {
+      void loadRecords();
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [loadRecords]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -157,6 +161,7 @@ export function MastersFormPage({
       form.reset();
       setSubmitMessage(`Saved successfully to ${tableName}.`);
       await loadRecords();
+      setIsShowingForm(false);
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to save form values.";
@@ -183,81 +188,15 @@ export function MastersFormPage({
 
           <button
             type="button"
-            onClick={() => setIsViewingRecords((current) => !current)}
+            onClick={() => setIsShowingForm((current) => !current)}
             className="inline-flex items-center justify-center rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-brand-600 focus:outline-hidden focus:ring-3 focus:ring-brand-500/25"
           >
-            {isViewingRecords ? "View Form" : "View Records"}
+            {isShowingForm ? "View Records" : "View Form"}
           </button>
         </div>
 
         <div className="p-4 sm:p-6">
-          {isViewingRecords ? (
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
-                  Saved Records
-                </h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  Latest entries stored in the{" "}
-                  <span className="font-medium">{tableName}</span> table.
-                </p>
-              </div>
-
-              {isLoadingRecords ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Loading saved records...
-                </p>
-              ) : records.length === 0 ? (
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  No records saved yet.
-                </p>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200 text-sm dark:divide-gray-800">
-                    <thead>
-                      <tr>
-                        {recordColumns.map((column) => (
-                          <th
-                            key={column}
-                            className="px-4 py-3 text-left font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
-                          >
-                            {column.replace(/_/g, " ")}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                      {records.map((record, index) => (
-                        <tr key={`${String(record.id ?? index)}-${index}`}>
-                          {recordColumns.map((column) => {
-                            const value = record[column];
-                            const displayValue = Array.isArray(value)
-                              ? value.join(", ")
-                              : typeof value === "object" && value !== null
-                                ? JSON.stringify(value)
-                                : value;
-
-                            return (
-                              <td
-                                key={`${index}-${column}`}
-                                className="px-4 py-3 text-gray-700 dark:text-gray-300"
-                              >
-                                {displayValue === null ||
-                                displayValue === undefined ||
-                                displayValue === ""
-                                  ? "-"
-                                  : String(displayValue)}
-                              </td>
-                            );
-                          })}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
-          ) : (
+          {isShowingForm ? (
             <form className="space-y-8" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
                 {fields.map((field) => {
@@ -422,6 +361,72 @@ export function MastersFormPage({
                 </p>
               ) : null}
             </form>
+          ) : (
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
+                  Saved Records
+                </h3>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  Latest entries stored in the{" "}
+                  <span className="font-medium">{tableName}</span> table.
+                </p>
+              </div>
+
+              {isLoadingRecords ? (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Loading saved records...
+                </p>
+              ) : records.length === 0 ? (
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  No records saved yet.
+                </p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200 text-sm dark:divide-gray-800">
+                    <thead>
+                      <tr>
+                        {recordColumns.map((column) => (
+                          <th
+                            key={column}
+                            className="px-4 py-3 text-left font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400"
+                          >
+                            {column.replace(/_/g, " ")}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                      {records.map((record, index) => (
+                        <tr key={`${String(record.id ?? index)}-${index}`}>
+                          {recordColumns.map((column) => {
+                            const value = record[column];
+                            const displayValue = Array.isArray(value)
+                              ? value.join(", ")
+                              : typeof value === "object" && value !== null
+                                ? JSON.stringify(value)
+                                : value;
+
+                            return (
+                              <td
+                                key={`${index}-${column}`}
+                                className="px-4 py-3 text-gray-700 dark:text-gray-300"
+                              >
+                                {displayValue === null ||
+                                displayValue === undefined ||
+                                displayValue === ""
+                                  ? "-"
+                                  : String(displayValue)}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </section>
