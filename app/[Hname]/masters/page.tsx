@@ -10,7 +10,14 @@ import {
   DocsIcon,
 } from "../../../components/icons";
 
-export default function MastersPage() {
+interface Props {
+  params: Promise<{ Hname: string }>;
+}
+
+export default async function MastersPage({ params }: Props) {
+  const resolvedParams = await params;
+  const hname = resolvedParams.Hname;
+
   const mastersItems = mastersData;
 
   const getIcon = (title: string) => {
@@ -39,7 +46,11 @@ export default function MastersPage() {
           // Determine the correct route for the subgroup boxes page.
           // By default, the href in navigation might point to the first item (e.g. /masters/clinical-masters/symptoms)
           // We want the box to point to the subgroup page itself, so extract base path like /masters/clinical-masters
-          const linkHref = item.href ? item.href.split("/").slice(0, 3).join("/") : "#";
+          let linkHref = item.href ? item.href.split("/").slice(0, 3).join("/") : "#";
+          
+          if (hname && hname !== "HSMS" && linkHref.startsWith("/") && linkHref !== "/") {
+            linkHref = `/${encodeURIComponent(hname)}${linkHref}`;
+          }
 
           return (
             <Link

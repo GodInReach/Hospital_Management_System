@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BellIcon, ChevronDownIcon } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 import { useTheme } from "../context/ThemeContext";
+import { useParams } from "next/navigation";
 
 export function Header() {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
@@ -12,6 +13,9 @@ export function Header() {
   const inputRef = useRef<HTMLInputElement>(null);
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
   const { theme, toggleTheme } = useTheme();
+  
+  const params = useParams();
+  const hname = params?.Hname ? decodeURIComponent(params.Hname as string) : "HSMS";
 
   useEffect(() => {
     setMounted(true);
@@ -70,11 +74,11 @@ export function Header() {
 
           <Link href="/" className="lg:hidden">
             <div className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500 text-sm font-bold text-white">
-                HS
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-500 text-sm font-bold text-white">
+                {hname.substring(0, 2).toUpperCase()}
               </div>
-              <span className="text-sm font-semibold text-gray-900 dark:text-white/90">
-                HSMS
+              <span className="truncate text-sm font-semibold text-gray-900 dark:text-white/90">
+                {hname}
               </span>
             </div>
           </Link>

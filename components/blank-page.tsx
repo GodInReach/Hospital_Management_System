@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { mastersData } from "../lib/navigation";
 
@@ -12,10 +12,21 @@ type BlankPageProps = {
 
 export function BlankPage({ title, children }: BlankPageProps) {
   const pathname = usePathname();
+  const params = useParams();
+  const hname = params?.Hname ? decodeURIComponent(params.Hname as string) : "";
   const tabsRef = useRef<HTMLDivElement>(null);
   const [hasTabOverflow, setHasTabOverflow] = useState(false);
+
+  // Normalize pathname to remove hname for matching with static definitions
+  let normalizedPathname = pathname;
+  if (hname && hname !== "HSMS" && pathname.startsWith(`/${encodeURIComponent(hname)}/`)) {
+    normalizedPathname = pathname.replace(`/${encodeURIComponent(hname)}`, "");
+  } else if (hname === "HSMS" || !hname) {
+      // Nothing needed, match as is
+  }
+
   const matchedGroup = mastersData.find((group) =>
-    group.items?.some((item) => item.href === pathname),
+    group.items?.some((item) => item.href === normalizedPathname),
   );
 
   useEffect(() => {
@@ -81,12 +92,17 @@ export function BlankPage({ title, children }: BlankPageProps) {
                 className="flex max-w-full flex-1 flex-nowrap gap-1.5 overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 {matchedGroup.items?.map((item) => {
-                  const isActive = item.href === pathname;
+                  const isActive = item.href === normalizedPathname;
+                  
+                  let localHref = item.href ?? "#";
+                  if (hname && hname !== "HSMS" && localHref.startsWith("/") && localHref !== "/") {
+                    localHref = `/${encodeURIComponent(hname)}${localHref}`;
+                  }
 
                   return (
                     <Link
                       key={item.href}
-                      href={item.href || "#"}
+                      href={localHref}
                       className={`shrink-0 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 ${
                         isActive
                           ? "border border-slate-200 bg-white text-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.08)]"

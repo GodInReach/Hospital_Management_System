@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { NavigationSection } from "../lib/navigation";
 import { navigation } from "../lib/navigation";
@@ -77,6 +77,7 @@ type ItemProps = {
   isCompact: boolean;
   openMap: OpenMap;
   onToggle: (key: string) => void;
+  hname?: string;
 };
 
 function SidebarItem({
@@ -87,6 +88,7 @@ function SidebarItem({
   isCompact,
   openMap,
   onToggle,
+  hname,
 }: ItemProps) {
   const nodeKey = getNodeKey(node, parentKey);
   const hasChildren = Boolean(node.items?.length);
@@ -94,11 +96,17 @@ function SidebarItem({
   const isOpen = Boolean(openMap[nodeKey]);
   const icon = level === 0 ? getSectionIcon(node.title) : null;
 
+  // Build local href optionally injecting the [Hname] directory
+  let localHref = node.href ?? "#";
+  if (hname && hname !== "HSMS" && localHref.startsWith("/") && localHref !== "/") {
+    localHref = `/${encodeURIComponent(hname)}${localHref}`;
+  }
+
   if (!hasChildren) {
     return (
       <li>
         <Link
-          href={node.href ?? "#"}
+          href={localHref}
           className={`menu-item group ${isActive ? "menu-item-active" : "menu-item-inactive"} ${
             isCompact ? "lg:justify-center" : "lg:justify-start"
           }`}
@@ -154,6 +162,7 @@ function SidebarItem({
                   isCompact={isCompact}
                   openMap={openMap}
                   onToggle={onToggle}
+                  hname={hname}
                 />
               ))}
             </ul>
@@ -166,6 +175,8 @@ function SidebarItem({
 
 export function Sidebar() {
   const pathname = usePathname();
+  const params = useParams();
+  const hname = params?.Hname ? decodeURIComponent(params.Hname as string) : "HSMS";
   const { isExpanded, isHovered, isMobileOpen, setIsHovered } = useSidebar();
   const isCompact = !isExpanded && !isHovered && !isMobileOpen;
   const initialOpen = useMemo(() => collectOpenKeys(navigation, pathname), [pathname]);
@@ -214,13 +225,13 @@ export function Sidebar() {
           className="flex items-center gap-3"
           aria-label="HSMS home"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500 text-sm font-bold text-white shadow-theme-sm">
-            HS
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-500 text-sm font-bold text-white shadow-theme-sm">
+            {hname.substring(0, 2).toUpperCase()}
           </div>
           {!isCompact ? (
             <div className="min-w-0">
               <div className="truncate text-sm font-semibold text-gray-900 dark:text-white/90">
-                HSMS
+                {hname}
               </div>
               <div className="truncate text-xs text-gray-500 dark:text-gray-400">
                 Hospital Suite
@@ -250,6 +261,7 @@ export function Sidebar() {
                     isCompact={isCompact}
                     openMap={openMap}
                     onToggle={handleToggle}
+                    hname={hname}
                   />
                 ))}
               </ul>

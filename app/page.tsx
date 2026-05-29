@@ -44,11 +44,7 @@ export default function HomePage() {
       </div>
 
       <section className="grid gap-6">
-        <ComponentCard
-          title="Hospital management systems"
-          desc="Centralize patient flow, admin data, and operational control in one place."
-          className="h-full"
-        >
+        <ComponentCard title="">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]">
             <div className="space-y-6">
               <div className="inline-flex rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-brand-600 dark:bg-brand-500/10 dark:text-brand-300">
