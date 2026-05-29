@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { mastersData } from "../lib/navigation";
 
 type BlankPageProps = {
@@ -11,9 +12,41 @@ type BlankPageProps = {
 
 export function BlankPage({ title, children }: BlankPageProps) {
   const pathname = usePathname();
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const [hasTabOverflow, setHasTabOverflow] = useState(false);
   const matchedGroup = mastersData.find((group) =>
     group.items?.some((item) => item.href === pathname),
   );
+
+  useEffect(() => {
+    const tabList = tabsRef.current;
+
+    if (!tabList) {
+      return;
+    }
+
+    const updateTabOverflow = () => {
+      setHasTabOverflow(tabList.scrollWidth > tabList.clientWidth);
+    };
+
+    updateTabOverflow();
+
+    const resizeObserver = new ResizeObserver(updateTabOverflow);
+    resizeObserver.observe(tabList);
+    window.addEventListener("resize", updateTabOverflow);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateTabOverflow);
+    };
+  }, [matchedGroup?.items?.length]);
+
+  const scrollTabs = (direction: "left" | "right") => {
+    tabsRef.current?.scrollBy({
+      left: direction === "left" ? -160 : 160,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <main className="min-h-full bg-[#f3f4f6] px-4 py-5 sm:px-6 lg:px-8">
@@ -27,8 +60,26 @@ export function BlankPage({ title, children }: BlankPageProps) {
               </h2>
             </div>
 
-            <div className="w-full lg:flex lg:justify-end">
-              <div className="flex flex-wrap gap-2 rounded-2xl bg-slate-200/70 p-1.5 lg:max-w-3xl lg:justify-end">
+            <div
+              className={`flex min-w-0 max-w-full items-center rounded-2xl bg-slate-200/70 p-1.5 ${
+                hasTabOverflow ? "w-full lg:flex-1" : "w-fit"
+              }`}
+            >
+              {hasTabOverflow ? (
+                <button
+                  type="button"
+                  aria-label="Scroll tabs left"
+                  onClick={() => scrollTabs("left")}
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-slate-600 transition hover:bg-white hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                >
+                  &lt;
+                </button>
+              ) : null}
+
+              <div
+                ref={tabsRef}
+                className="flex max-w-full flex-1 flex-nowrap gap-1.5 overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              >
                 {matchedGroup.items?.map((item) => {
                   const isActive = item.href === pathname;
 
@@ -36,7 +87,7 @@ export function BlankPage({ title, children }: BlankPageProps) {
                     <Link
                       key={item.href}
                       href={item.href || "#"}
-                      className={`rounded-xl px-5 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 ${
+                      className={`shrink-0 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 ${
                         isActive
                           ? "border border-slate-200 bg-white text-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.08)]"
                           : "border border-transparent bg-transparent text-slate-600 hover:border-slate-300 hover:bg-white hover:text-slate-900"
@@ -47,6 +98,17 @@ export function BlankPage({ title, children }: BlankPageProps) {
                   );
                 })}
               </div>
+
+              {hasTabOverflow ? (
+                <button
+                  type="button"
+                  aria-label="Scroll tabs right"
+                  onClick={() => scrollTabs("right")}
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-slate-600 transition hover:bg-white hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                >
+                  &gt;
+                </button>
+              ) : null}
             </div>
           </div>
         ) : null}
