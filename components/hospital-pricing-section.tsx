@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ComponentCard from "../Template/components/common/ComponentCard";
+import { ComponentCard } from "./component-card";
 
 type PricingPlan = {
   name: string;

@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import ComponentCard from "../Template/components/common/ComponentCard";
-import PageBreadCrumb from "../Template/components/common/PageBreadCrumb";
-import Label from "../Template/components/form/Label";
-import InputField from "../Template/components/form/input/InputField";
-import Button from "../Template/components/ui/button/Button";
+import { ComponentCard } from "./component-card";
+import { PageBreadcrumb } from "./ui/page-breadcrumb";
+import { Label } from "./ui/label";
+import { InputField } from "./ui/input-field";
+import { Button } from "./ui/button";
 
 type AccountField = {
   id: string;
@@ -83,7 +83,7 @@ export function CreateAccountForm() {
 
   return (
     <div className="space-y-6">
-      <PageBreadCrumb pageTitle="Create Account" />
+      <PageBreadcrumb pageTitle="Create Account" />
 
       <div className="grid gap-6">
         <ComponentCard

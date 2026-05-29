@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import ComponentCard from "../Template/components/common/ComponentCard";
+import { ComponentCard } from "../components/component-card";
 import { PricingSection } from "../components/hospital-pricing-section";
 
 const hospitalHighlights = [
